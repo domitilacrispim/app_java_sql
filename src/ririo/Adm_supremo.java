@@ -1,6 +1,7 @@
 
 package ririo;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -9,6 +10,7 @@ import javax.swing.GrayFilter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -17,7 +19,7 @@ public class Adm_supremo extends JFrame {
     private String user = "Adm";
     private String senha = "123456";
     public boolean Adm_supremo(String a, String b){
-        if ( !a.equals(user) || !b.equals(senha) ) return false ;
+        if ( !a.equals(user) || !b.equals(senha) ) return false ; // subistirui esse if com a conexao com o banco
     final ImageIcon imageIcon = new ImageIcon("/home/domitila/Imagens/rir.jpg");
       JOptionPane.showMessageDialog(null,"Logado com administrador. Instruções "
                                                    + ""
@@ -29,12 +31,12 @@ public class Adm_supremo extends JFrame {
             
    JPanel painel_princ = new JPanel(new FlowLayout()){
         	Image image = imageIcon.getImage();
-        	Image grayImage = GrayFilter.createDisabledImage(image);
+        	Image grayImage = image;
         	{
             	setOpaque(false);
         	}
         	public void paint(Graphics g) {
-           		g.drawImage(grayImage, 0, 0, this);
+           		g.drawImage(grayImage, -350, -50, this);
             	super.paint(g);
         	}
     	};// painel principal
@@ -42,7 +44,20 @@ public class Adm_supremo extends JFrame {
      JButton consult = new JButton("Consulta"); // botao de consulta
       JButton dele = new JButton("Deleção"); // botao de delecao
       JTextField tabela = new JTextField(20);
-      painel_princ.add(consult);    
+      JLabel ajuda = new JLabel("Digite o nome da tabela que deseja editar:\n");
+              //painel_princ.setLayout(new GridLayout(4,1));
+               ajuda.setForeground(Color.white);
+        
+              painel_princ.add(ajuda);
+      painel_princ.add(tabela);
+      painel_princ.add(inser);
+      painel_princ.add(dele);
+      painel_princ.add(consult);  
+      JFrame campo = new JFrame("Janela do Adm.");
+        campo.setSize(400, 300);    
+        campo.setDefaultCloseOperation(EXIT_ON_CLOSE);
+       campo.getContentPane().add(painel_princ);
+        campo.setVisible(true);
       return true;
     }
     

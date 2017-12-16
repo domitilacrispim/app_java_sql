@@ -65,7 +65,7 @@ public class Inter_Graf extends JFrame {
                 new ActionListener(){
                     public void actionPerformed (ActionEvent e){
                        if(teste_s.Adm_supremo(usuario.getText(),senha.getText())){
-                           new Adm_supremo().setVisible(true);
+                           new Adm_supremo();
                        }
                        
                     }
