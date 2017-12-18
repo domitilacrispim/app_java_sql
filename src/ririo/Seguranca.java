@@ -15,7 +15,7 @@ public class Seguranca {
     public static Connection seguranca(String user, String senha) throws ClassNotFoundException{
         try {
             Class.forName("org.postgresql.Driver");
-            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/juihui", user, senha);
+            Connection con = DriverManager.getConnection("jdbc:postgresql://localhost/postgres", user, senha);
             return con;
         }
         catch(SQLException error){
