@@ -14,12 +14,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import java.sql.*;
 
 public class Adm_supremo extends JFrame {
-    private String user = "Adm";
-    private String senha = "123456";
-    public boolean Adm_supremo(String a, String b){
-        if ( !a.equals(user) || !b.equals(senha) ) return false ; // subistirui esse if com a conexao com o banco
+  //  private String user = "Adm";
+ //   private String senha = "123456";
+    public boolean Adm_supremo(String a, String b) throws ClassNotFoundException{
+    //    if ( !a.equals(user) || !b.equals(senha) ) return false ; // subistirui esse if com a conexao com o banco
+        Connection con = null;
+        PreparedStatement pst=null;
+        ResultSet rs = null;
+        con = Seguranca.seguranca(a,b);
+        if ( con==null ) return false;
     final ImageIcon imageIcon = new ImageIcon("/home/domitila/Imagens/rir.jpg");
       JOptionPane.showMessageDialog(null,"Logado com administrador. Instruções "
                                                    + ""

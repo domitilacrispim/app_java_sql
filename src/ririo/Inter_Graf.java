@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
-public class Inter_Graf extends JFrame {
+public class Inter_Graf extends JFrame  {
     public Inter_Graf(){
     	super("Login");
         Adm_supremo teste_s = new Adm_supremo();
@@ -64,9 +66,13 @@ public class Inter_Graf extends JFrame {
            logar.addActionListener (
                 new ActionListener(){
                     public void actionPerformed (ActionEvent e){
-                       if(teste_s.Adm_supremo(usuario.getText(),senha.getText())){
-                           new Adm_supremo();
-                       }
+                        
+                        try {
+                            if(teste_s.Adm_supremo(usuario.getText(),senha.getText())){
+                                new Adm_supremo();
+                            }} catch (ClassNotFoundException ex) {
+                            Logger.getLogger(Inter_Graf.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                        
                     }
                 }
