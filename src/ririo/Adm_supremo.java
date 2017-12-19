@@ -92,6 +92,14 @@ public Statement sentenca;
                    try { // Cria uma sentenca para atualizar o banco de dado
                        sentenca = con.createStatement();
                        sentenca.executeUpdate("Set search_path to rockinrio");
+                       ResultSet rs;
+                       rs = sentenca.executeQuery("SELECT column_name FROM information_schema.columns WHERE table_name ='"+a +"'");
+                       while (rs.next())
+                        {
+                            
+                            System.out.print("Column 1 returned ");
+                            JOptionPane.showMessageDialog(null, rs.getString(1));
+                        }
                        sentenca.executeUpdate("Insert into " + a + " values (2, 100, 100, 'mundi', 202)");
                        JOptionPane.showMessageDialog(null, "Inserido com sucesso!");
                        
