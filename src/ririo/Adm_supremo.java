@@ -91,11 +91,12 @@ public Statement sentenca;
     public void insere ( String a, Connection con){
                    try { // Cria uma sentenca para atualizar o banco de dado
                        sentenca = con.createStatement();
-                       //sentenca.executeUpdate("Set search_path to rockinrio");
+                       sentenca.executeUpdate("Set search_path to rockinrio");
                        ResultSet rs;
                        rs = sentenca.executeQuery("SELECT column_name FROM information_schema.columns WHERE table_name ='"+a +"'");
+                    //   rs = sentenca.executeQuery("\\d " +a );
                       String aux = "( ";
-                      JOptionPane.showMessageDialog(null, "Digite a seguir os dados cada um de uma vez.");
+                      JOptionPane.showMessageDialog(null, "Digite a seguir os dados cada um de uma vez. ");
                        int i=0;
                         while (rs.next())
                         {
