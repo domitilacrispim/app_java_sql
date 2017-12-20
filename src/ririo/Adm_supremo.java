@@ -57,6 +57,7 @@ public Statement sentenca;
         JButton inser = new JButton("Inserção"); // botao de insercao  
         JButton consult = new JButton("Consulta"); // botao de consulta
         JButton dele = new JButton("Deleção"); // botao de delecao
+        JButton atualiza = new JButton("Atualização"); // botao de delecao
         JTextField tabela = new JTextField(20);
         JLabel ajuda = new JLabel("Digite o nome da tabela que deseja editar:\n");
         //painel_princ.setLayout(new GridLayout(4,1));
@@ -67,6 +68,7 @@ public Statement sentenca;
         painel_princ.add(inser);
         painel_princ.add(dele);
         painel_princ.add(consult);
+        painel_princ.add(atualiza);
         JFrame campo = new JFrame("Janela do Adm.");
         campo.setSize(400, 300);
         campo.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -75,6 +77,13 @@ public Statement sentenca;
                 new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                  insere(tabela.getText(),con );
+            }
+        }
+        );
+        atualiza.addActionListener(
+                new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                 updata(tabela.getText(),con );
             }
         }
         );
@@ -89,7 +98,54 @@ public Statement sentenca;
 
         return true;
     }
-    
+ 
+       public void updata (String a, Connection con){
+                   try { // Cria uma sentenca para atualizar o banco de dado
+                       sentenca = con.createStatement();
+                       sentenca.executeUpdate("Set search_path to rockinrio");
+                       ResultSet rs;
+                       rs = sentenca.executeQuery("SELECT column_name FROM information_schema.columns WHERE table_name ='"+a +"'");
+                      //rs = sentenca.executeQuery("\\d " +a );
+                      String aux = "";
+                      JOptionPane.showMessageDialog(null, "Digite a seguir os dados cada um de uma vez."
+                              + "Primeiro digite a condicao para o campo e na janela seguinte  o valor de atualizacao."
+                              + "Caso nao deseje alterar certo campo apenas deixe a caixa em branco.");
+                       int i=0, i1=0;
+                        String z=null, z1="(";
+                            
+                       while (rs.next())
+                        {                      
+                            z=JOptionPane.showInputDialog(rs.getString(1));
+                            
+                            if( z != null){
+                                if(i>0) aux= aux+" AND ";
+                                i++;
+                                aux= aux+ rs.getString(1) + "='"+z+"'" ;
+                            }
+                            if(z1!=null){
+                                if(i1>0) z1= z1+" , ";
+                                    z1 = z1 +rs.getString(1)+ "='"+ JOptionPane.showInputDialog(rs.getString(1)) + "'";
+                                i1++;
+                            }
+                        }
+                        String mimi="";
+                        if(i!=0){
+                             mimi = " where "+z;
+                        }
+                        if(i1!=0){
+                            mimi = " set "+z1+ mimi;
+                        }
+                        sentenca.executeUpdate("Update "+a+mimi);
+                        
+                   } 
+                  
+                    catch (SQLException se) {
+                              JOptionPane.showMessageDialog(null, "Tabela invalida ou voce nao possui esse privilegio!");
+
+                            System.out.println("Nao foi possivel executar.");
+                                               se.printStackTrace();
+                            System.exit(1);}
+  }
     public void deleta (String a, Connection con){
                    try { // Cria uma sentenca para atualizar o banco de dado
                        sentenca = con.createStatement();
@@ -122,7 +178,7 @@ public Statement sentenca;
                             System.out.println("Nao foi possivel executar.");
                                                se.printStackTrace();
                             System.exit(1);}
-                        }
+  }
     
     public void insere ( String a, Connection con){
                    try { // Cria uma sentenca para atualizar o banco de dado
