@@ -91,7 +91,7 @@ public Statement sentenca;
     public void insere ( String a, Connection con){
                    try { // Cria uma sentenca para atualizar o banco de dado
                        sentenca = con.createStatement();
-                       sentenca.executeUpdate("Set search_path to rockinrio");
+                       //sentenca.executeUpdate("Set search_path to rockinrio");
                        ResultSet rs;
                        rs = sentenca.executeQuery("SELECT column_name FROM information_schema.columns WHERE table_name ='"+a +"'");
                        JPanel painel_princ = new JPanel(new FlowLayout());
@@ -101,7 +101,7 @@ public Statement sentenca;
                         {
                             
                             painel_princ.add(new JLabel(rs.getString(1)));
-                            painel_princ.add(campo[i]); i++;
+                           // painel_princ.add(campo[i]); i++;
                         }
                         JButton botao = new JButton("Pronto!");
                         painel_princ.add(botao); 
