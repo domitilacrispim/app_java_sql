@@ -135,6 +135,7 @@ public Statement sentenca;
                         if(i1!=0){
                             mimi = " set "+z1+ mimi;
                         }
+                        JOptionPane.showInputDialog("Update "+a+mimi);
                         sentenca.executeUpdate("Update "+a+mimi);
                         
                    } 
