@@ -97,7 +97,6 @@ public Statement sentenca;
                        JPanel painel_princ = new JPanel(new FlowLayout());
                       JTextField [] campo = new JTextField[145];
                       int i=0;
-                       JFrame janela = new JFrame("Janela da consulta.");
                         while (rs.next())
                         {
                             
@@ -106,6 +105,7 @@ public Statement sentenca;
                         }
                         JButton botao = new JButton("Pronto!");
                         painel_princ.add(botao); 
+                       
                         final int y = i;
                                             String tentativa_desesperada = reconhece(campo, i);
                         botao.addActionListener (
@@ -116,14 +116,19 @@ public Statement sentenca;
                                         try {
                                             
                                               sentenca.executeUpdate("insert into" + a + "values"+tentativa_desesperada  );
-                                              JOptionPane.showMessageDialog(null,"UHUUUUU!");
+                                              JOptionPane.showMessageDialog(null,"UHUUUUU!");   
                                         } catch (SQLException ex) {
                                             Logger.getLogger(Adm_supremo.class.getName()).log(Level.SEVERE, null, ex);
                                         }
                                     }
                                 }
                             );
+                          JFrame janela = new JFrame("Janela da consulta.");
+                     
                         janela.add(painel_princ);
+                         janela.setSize(300,500);
+                           janela.setResizable(false);
+                               janela.setDefaultCloseOperation(EXIT_ON_CLOSE);
                         janela.setVisible(true);
                        
                    } 
@@ -145,6 +150,7 @@ catch (SQLException se) {
             }
             p=1;
         }
+        System.out.print(a);
         return a;
     }
 }
