@@ -94,43 +94,18 @@ public Statement sentenca;
                        //sentenca.executeUpdate("Set search_path to rockinrio");
                        ResultSet rs;
                        rs = sentenca.executeQuery("SELECT column_name FROM information_schema.columns WHERE table_name ='"+a +"'");
-                       JPanel painel_princ = new JPanel(new FlowLayout());
-                      JTextField [] campo = new JTextField[145];
-                      int i=0;
+                      String aux = "( ";
+                      JOptionPane.showMessageDialog(null, "Digite a seguir os dados cada um de uma vez.");
+                       int i=0;
                         while (rs.next())
                         {
-                            
-                            painel_princ.add(new JLabel(rs.getString(1)));
-                           // painel_princ.add(campo[i]); i++;
+                            if(i>0) aux= aux+",";
+                            aux = aux + JOptionPane.showInputDialog(rs.getString(1));
+                            i++;
                         }
-                        JButton botao = new JButton("Pronto!");
-                        painel_princ.add(botao); 
-                       
-                        final int y = i;
-                                            String tentativa_desesperada = reconhece(campo, i);
-                        botao.addActionListener (
-                                new ActionListener(){
-                                    public void actionPerformed (ActionEvent e){
-                                       
-                                            
-                                        try {
-                                            
-                                              sentenca.executeUpdate("insert into" + a + "values"+tentativa_desesperada  );
-                                              JOptionPane.showMessageDialog(null,"UHUUUUU!");   
-                                        } catch (SQLException ex) {
-                                            Logger.getLogger(Adm_supremo.class.getName()).log(Level.SEVERE, null, ex);
-                                        }
-                                    }
-                                }
-                            );
-                          JFrame janela = new JFrame("Janela da consulta.");
-                     
-                        janela.add(painel_princ);
-                         janela.setSize(300,500);
-                           janela.setResizable(false);
-                               janela.setDefaultCloseOperation(EXIT_ON_CLOSE);
-                        janela.setVisible(true);
-                       
+                        aux = ")";
+                        sentenca.executeUpdate("Insert into " + a +"values "+ aux);
+                        
                    } 
                   
 catch (SQLException se) {
@@ -140,17 +115,5 @@ catch (SQLException se) {
                            se.printStackTrace();
         System.exit(1);}
     }
-    public String reconhece (JTextField [] array_botao, int i){
-        String a=null; int p=0;
-        
-        for ( int o=0; o<i; i++){
-            a=a+"'" + array_botao[o] + "'";
-            if (0!=p){
-                a=a+" ,";
-            }
-            p=1;
-        }
-        System.out.print(a);
-        return a;
-    }
+    
 }
