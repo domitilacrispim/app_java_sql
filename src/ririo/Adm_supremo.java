@@ -101,7 +101,7 @@ public Statement sentenca;
                         while (rs.next())
                         {
                             if(i>0) aux= aux+",";
-                            aux = aux + JOptionPane.showInputDialog(rs.getString(1));
+                            aux = aux + "'"+ JOptionPane.showInputDialog(rs.getString(1)) + "'";
                             i++;
                         }
                         aux = ")";
