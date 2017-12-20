@@ -71,11 +71,11 @@ public Statement sentenca;
         campo.setSize(400, 300);
         campo.setDefaultCloseOperation(EXIT_ON_CLOSE);
         campo.getContentPane().add(painel_princ);
-        consult.addActionListener(
+        inser.addActionListener(
                 new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 
-              consulta(tabela.getText(),con );
+              insere(tabela.getText(),con );
                 // JOptionPane.showMessageDialog(null, "mimim");
                 
               
@@ -88,20 +88,43 @@ public Statement sentenca;
         return true;
     }
     
-    public void consulta ( String a, Connection con){
+    public void insere ( String a, Connection con){
                    try { // Cria uma sentenca para atualizar o banco de dado
                        sentenca = con.createStatement();
                        sentenca.executeUpdate("Set search_path to rockinrio");
                        ResultSet rs;
                        rs = sentenca.executeQuery("SELECT column_name FROM information_schema.columns WHERE table_name ='"+a +"'");
-                       while (rs.next())
+                       JPanel painel_princ = new JPanel(new FlowLayout());
+                      JTextField [] campo = new JTextField[145];
+                      int i=0;
+                       JFrame janela = new JFrame("Janela da consulta.");
+                        while (rs.next())
                         {
                             
-                            System.out.print("Column 1 returned ");
-                            JOptionPane.showMessageDialog(null, rs.getString(1));
+                            painel_princ.add(new JLabel(rs.getString(1)));
+                            painel_princ.add(campo[i]); i++;
                         }
-                       sentenca.executeUpdate("Insert into " + a + " values (2, 100, 100, 'mundi', 202)");
-                       JOptionPane.showMessageDialog(null, "Inserido com sucesso!");
+                        JButton botao = new JButton("Pronto!");
+                        painel_princ.add(botao); 
+                        final int y = i;
+                                            String tentativa_desesperada = reconhece(campo, i);
+                        botao.addActionListener (
+                                new ActionListener(){
+                                    public void actionPerformed (ActionEvent e){
+                                       
+                                            
+                                        try {
+                                            
+                                              sentenca.executeUpdate("insert into" + a + "values"+tentativa_desesperada  );
+                                              JOptionPane.showMessageDialog(null,"UHUUUUU!");
+                                        } catch (SQLException ex) {
+                                            Logger.getLogger(Adm_supremo.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                }
+                            );
+                        janela.add(painel_princ);
+                        janela.setVisible(true);
                        
                    } 
                   
@@ -112,5 +135,16 @@ catch (SQLException se) {
                            se.printStackTrace();
         System.exit(1);}
     }
-
+    public String reconhece (JTextField [] array_botao, int i){
+        String a=null; int p=0;
+        
+        for ( int o=0; o<i; i++){
+            a=a+"'" + array_botao[o] + "'";
+            if (0!=p){
+                a=a+" ,";
+            }
+            p=1;
+        }
+        return a;
+    }
 }
