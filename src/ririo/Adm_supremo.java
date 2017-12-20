@@ -74,12 +74,14 @@ public Statement sentenca;
         inser.addActionListener(
                 new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                
-              insere(tabela.getText(),con );
-                // JOptionPane.showMessageDialog(null, "mimim");
-                
-              
-
+                 insere(tabela.getText(),con );
+            }
+        }
+        );
+        dele.addActionListener(
+                new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                 deleta(tabela.getText(),con );
             }
         }
         );
@@ -88,33 +90,67 @@ public Statement sentenca;
         return true;
     }
     
+    public void deleta (String a, Connection con){
+                   try { // Cria uma sentenca para atualizar o banco de dado
+                       sentenca = con.createStatement();
+                       sentenca.executeUpdate("Set search_path to rockinrio");
+                       ResultSet rs;
+                       rs = sentenca.executeQuery("SELECT column_name FROM information_schema.columns WHERE table_name ='"+a +"'");
+                      //rs = sentenca.executeQuery("\\d " +a );
+                      String aux = "";
+                      JOptionPane.showMessageDialog(null, "Digite a seguir os dados cada um de uma vez. Campos que nao tem restricoes devem "
+                              + "ser deixados em branco. ");
+                       int i=0;
+                        while (rs.next())
+                        {                      
+                            String z=null;
+                            z=JOptionPane.showInputDialog(rs.getString(1));
+                            if( z != null){
+                                if(i>0) aux= aux+" AND ";
+                                i++;
+                                aux= aux+ rs.getString(1) + "='"+z+"'" ;
+                            }
+                        }
+                        
+                        sentenca.executeUpdate("Delete from " + a +" where "+ aux);
+                        
+                   } 
+                  
+                    catch (SQLException se) {
+                              JOptionPane.showMessageDialog(null, "Tabela invalida ou voce nao possui esse privilegio!");
+
+                            System.out.println("Nao foi possivel executar.");
+                                               se.printStackTrace();
+                            System.exit(1);}
+                        }
+    
     public void insere ( String a, Connection con){
                    try { // Cria uma sentenca para atualizar o banco de dado
                        sentenca = con.createStatement();
                        sentenca.executeUpdate("Set search_path to rockinrio");
                        ResultSet rs;
                        rs = sentenca.executeQuery("SELECT column_name FROM information_schema.columns WHERE table_name ='"+a +"'");
-                    //   rs = sentenca.executeQuery("\\d " +a );
+                      //rs = sentenca.executeQuery("\\d " +a );
                       String aux = "( ";
                       JOptionPane.showMessageDialog(null, "Digite a seguir os dados cada um de uma vez. ");
                        int i=0;
                         while (rs.next())
                         {
-                            if(i>0) aux= aux+",";
+                            if(i>0) aux= aux+" , ";
                             aux = aux + "'"+ JOptionPane.showInputDialog(rs.getString(1)) + "'";
                             i++;
                         }
-                        aux = ")";
-                        sentenca.executeUpdate("Insert into " + a +"values "+ aux);
+                        aux = aux +")";
+                        sentenca.executeUpdate("Insert into " + a +" values "+ aux);
                         
                    } 
                   
-catch (SQLException se) {
-          JOptionPane.showMessageDialog(null, "Tabela invalida ou voce nao possui esse privilegio!");
-                      
-        System.out.println("Nao foi possivel executar.");
-                           se.printStackTrace();
-        System.exit(1);}
-    }
+                    catch (SQLException se) {
+                              JOptionPane.showMessageDialog(null, "Tabela invalida ou voce nao possui esse privilegio!");
+
+                            System.out.println("Nao foi possivel executar.");
+                                               se.printStackTrace();
+                            System.exit(1);}
+                        }
     
 }
